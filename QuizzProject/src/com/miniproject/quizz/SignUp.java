@@ -1,12 +1,16 @@
 package com.miniproject.quizz;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class SignUp extends AbstractQuizz
+public class SignUp //
 {
-	Connection con=null;
+	public static final String QUERY="INSERT INTO USERS (FULLNAME,USERNAME,PASSWORD) VALUES(?,?,?)";
+	int isExecuted;
+	BuildConnection build=null;
 	private String name;
 	private String username;
 	private String password;
@@ -35,26 +39,23 @@ public class SignUp extends AbstractQuizz
 	{
 		this.password = password;
 	}
-	public Connection getCon() 
+	public boolean signUp() 
 	{
-		return con;
-	}
-	public void setCon(Connection con) 
-	{
-		this.con = con;
-	}
-	
-	public void SignUp() 
-	{
-		try(Scanner sc= new Scanner(System.in);)
+		BuildConnection b=new BuildConnection();
+		Connection con=b.getConnectionDb();
+		try(Scanner sc= new Scanner(System.in);
+			PreparedStatement ps=con.prepareStatement(QUERY);)
 		{
 			if(sc!=null)
 			{
 				while(true)
 				{
 					System.out.println("Enter your name : ");
-					sc.nextLine();
-					name=sc.nextLine();
+					name=sc.next();
+					if(name==null)
+					{	
+						System.out.println("please re-enter your name: ");
+					}
 					if(name!=null)
 					{	
 						break;
@@ -63,7 +64,7 @@ public class SignUp extends AbstractQuizz
 				
 				while(true)
 				{
-					System.out.println("Enter your name : ");
+					System.out.println("Enter your username : ");
 					username=sc.next();
 					if(username!=null)
 					{	
@@ -73,11 +74,25 @@ public class SignUp extends AbstractQuizz
 				
 				while(true)
 				{
-					System.out.println("Enter your name : ");
+					System.out.println("Enter your password : ");
 					password=sc.next();
 					if(password!=null)
 					{	
 						break;
+					}
+				}
+				if(con!=null)
+				{
+					if(ps!=null)
+					{
+						ps.setString(1, name);
+						ps.setString(2, username);
+						ps.setString(3, password);
+						isExecuted=ps.executeUpdate();
+						if(isExecuted==1)
+						{
+							System.out.println("Inserted successfully...!");
+						}
 					}
 				}
 			}
@@ -86,13 +101,17 @@ public class SignUp extends AbstractQuizz
 		{
 			e.printStackTrace();
 		}
-		catch (Exception e) 
+		catch (SQLException e) 
 		{
 			e.printStackTrace();
 		}
-	}
-	public static void main(String[] args) 
-	{
 		
-	}	
+		
+		return false;
+	}
+	public static void main(String[] args) throws SQLException 
+	{
+		SignUp sp=new SignUp();
+		sp.signUp();
+	}
 }

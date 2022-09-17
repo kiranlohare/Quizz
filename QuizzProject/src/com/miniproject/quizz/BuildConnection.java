@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class BuildConnection 
+public class BuildConnection extends AbstractQuizz
 {
 	//global object initialization
 	Properties p=null;
@@ -18,12 +18,10 @@ public class BuildConnection
 	{
 		//try with resource to handle known exception
 		try(FileInputStream stream=new FileInputStream("D:/Quizz/QuizzProject/bin/com/miniproject/quizz/db.properties");)
-		{
-			
+		{	
 			Properties p=new Properties();
 			p.load(stream);
 			con=DriverManager.getConnection(p.getProperty("url"), p.getProperty("username"), p.getProperty("password"));
-
 		} 
 		//to handle IO exception known exception
 		catch (IOException e) 
