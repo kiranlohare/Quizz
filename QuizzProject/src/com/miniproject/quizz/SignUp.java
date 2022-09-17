@@ -8,41 +8,20 @@ import java.util.Scanner;
 
 public class SignUp //
 {
-	public static final String QUERY="INSERT INTO USERS (FULLNAME,USERNAME,PASSWORD) VALUES(?,?,?)";
-	int isExecuted;
-	BuildConnection build=null;
-	private String name;
-	private String username;
-	private String password;
+	//pre-compiled SQL Query
+	public static final String QUERY="INSERT INTO USERS (NAME,EMAIL,PASSWORD) VALUES(?,?,?)";
 	
-	public String getName() 
-	{
-		return name;
-	}
-	public void setName(String name) 
-	{
-		this.name = name;
-	}
-	public String getUsername() 
-	{
-		return username;
-	}
-	public void setUsername(String username) 
-	{
-		this.username = username;
-	}
-	public String getPassword() 
-	{
-		return password;
-	}
-	public void setPassword(String password) 
-	{
-		this.password = password;
-	}
+	//instance variables
+	private int isExecuted;
+	private boolean isCheck;
+	Connection con=null;
+	BuildConnection b=null;
+	
 	public boolean signUp() 
 	{
-		BuildConnection b=new BuildConnection();
-		Connection con=b.getConnectionDb();
+		Users users=new Users();
+		b=new BuildConnection();
+		con=b.getConnectionDb();
 		try(Scanner sc= new Scanner(System.in);
 			PreparedStatement ps=con.prepareStatement(QUERY);)
 		{
@@ -51,12 +30,8 @@ public class SignUp //
 				while(true)
 				{
 					System.out.println("Enter your name : ");
-					name=sc.next();
-					if(name==null)
-					{	
-						System.out.println("please re-enter your name: ");
-					}
-					if(name!=null)
+					users.setName(sc.next());
+					if(users.getName()!=null)
 					{	
 						break;
 					}
@@ -64,10 +39,14 @@ public class SignUp //
 				
 				while(true)
 				{
-					System.out.println("Enter your username : ");
-					username=sc.next();
-					if(username!=null)
-					{	
+					System.out.println("Enter your email : ");
+					users.setUsername(sc.next()); 
+					if (!users.getUsername().contains("@") || !users.getUsername().endsWith(".com")) 
+					{
+						System.out.println("Re-correct please !");
+					}
+					else 
+					{
 						break;
 					}
 				}
@@ -75,8 +54,8 @@ public class SignUp //
 				while(true)
 				{
 					System.out.println("Enter your password : ");
-					password=sc.next();
-					if(password!=null)
+					users.setPassword(sc.next());
+					if(users.getPassword()!=null)
 					{	
 						break;
 					}
@@ -85,13 +64,13 @@ public class SignUp //
 				{
 					if(ps!=null)
 					{
-						ps.setString(1, name);
-						ps.setString(2, username);
-						ps.setString(3, password);
+						ps.setString(1, users.getName());
+						ps.setString(2, users.getUsername());
+						ps.setString(3, users.getPassword());
 						isExecuted=ps.executeUpdate();
 						if(isExecuted==1)
 						{
-							System.out.println("Inserted successfully...!");
+							isCheck=true;
 						}
 					}
 				}
@@ -105,13 +84,11 @@ public class SignUp //
 		{
 			e.printStackTrace();
 		}
-		
-		
-		return false;
+		return isCheck;
 	}
-	public static void main(String[] args) throws SQLException 
+	public static void main(String[] args) 
 	{
-		SignUp sp=new SignUp();
-		sp.signUp();
+		SignUp up=new SignUp();
+		up.signUp();
 	}
 }
