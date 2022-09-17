@@ -17,7 +17,7 @@ public class BuildConnection extends AbstractQuizz
 	public Connection getConnectionDb()
 	{
 		//try with resource to handle known exception
-		try(FileInputStream stream=new FileInputStream("D:/Quizz/QuizzProject/bin/com/miniproject/quizz/db.properties");)
+		try(FileInputStream stream=new FileInputStream("src\\com\\miniproject\\quizz\\db.properties");)
 		{	
 			Properties p=new Properties();
 			p.load(stream);
