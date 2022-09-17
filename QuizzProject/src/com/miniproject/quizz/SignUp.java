@@ -19,19 +19,22 @@ public class SignUp //
 	
 	public boolean signUp() 
 	{
+		//establish connect with database
 		Users users=new Users();
 		b=new BuildConnection();
 		con=b.getConnectionDb();
+		//try with resource
 		try(Scanner sc= new Scanner(System.in);
 			PreparedStatement ps=con.prepareStatement(QUERY);)
 		{
+			//user inputs to store register
 			if(sc!=null)
 			{
 				while(true)
 				{
 					System.out.println("Enter your name : ");
 					users.setName(sc.next());
-					if(users.getName()!=null)
+					if(users.getName()!=null && !users.getName().equals("null"))
 					{	
 						break;
 					}
@@ -76,19 +79,14 @@ public class SignUp //
 				}
 			}
 		}
-		catch (InputMismatchException e) 
-		{
-			e.printStackTrace();
-		}
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
 		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
 		return isCheck;
-	}
-	public static void main(String[] args) 
-	{
-		SignUp up=new SignUp();
-		up.signUp();
 	}
 }

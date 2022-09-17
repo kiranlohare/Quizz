@@ -5,6 +5,7 @@ public class Users
 	private String name;
 	private String username;
 	private String password;
+	private String securitycheck;
 	
 	
 	public String getName() 
@@ -31,5 +32,10 @@ public class Users
 	{
 		this.password = password;
 	}
-
+	public String getSecuritycheck() {
+		return securitycheck;
+	}
+	public void setSecuritycheck(String securitycheck) {
+		this.securitycheck = securitycheck;
+	}
 }
