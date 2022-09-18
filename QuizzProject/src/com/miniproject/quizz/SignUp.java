@@ -3,13 +3,12 @@ package com.miniproject.quizz;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class SignUp //
 {
 	//pre-compiled SQL Query
-	public static final String QUERY="INSERT INTO USERS (NAME,EMAIL,PASSWORD) VALUES(?,?,?)";
+	public static final String QUERY="INSERT INTO USERS (NAME,EMAIL,PASSWORD,SECURITY) VALUES(?,?,?,?)";
 	
 	//instance variables
 	private int isExecuted;
@@ -63,6 +62,18 @@ public class SignUp //
 						break;
 					}
 				}
+				
+				while(true)
+				{
+					System.out.println("Enter security question : ");
+					System.out.println("What is your pet name?");
+					users.setSecuritycheck(sc.next());
+					if(users.getSecuritycheck()!=null)
+					{	
+						break;
+					}
+				}
+				
 				if(con!=null)
 				{
 					if(ps!=null)
@@ -70,6 +81,7 @@ public class SignUp //
 						ps.setString(1, users.getName());
 						ps.setString(2, users.getUsername());
 						ps.setString(3, users.getPassword());
+						ps.setString(4, users.getSecuritycheck());
 						isExecuted=ps.executeUpdate();
 						if(isExecuted==1)
 						{

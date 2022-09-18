@@ -10,6 +10,10 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * @author Suraj Kurade
+ * @since 1.0
+ */
 public class Questions extends AbstractQuizz {
 	private BuildConnection bcon = null;
 	private Connection con = null;
@@ -45,11 +49,8 @@ public class Questions extends AbstractQuizz {
 				getQuestionsFromDB.setInt(1, randomnumber);
 				rs = getQuestionsFromDB.executeQuery();
 				while (rs.next()) {
-					System.out.println();
 					System.out.print("Q" + ++count + ". ");
 					System.out.println(rs.getString(2));
-					System.out.print(" Description- ");
-					System.out.println(rs.getString(7));
 					System.out.print(" Option-1. ");
 					System.out.println(rs.getString(3) + " ");
 					System.out.print(" Option-2. ");
@@ -58,19 +59,24 @@ public class Questions extends AbstractQuizz {
 					System.out.println(rs.getString(5) + " ");
 					System.out.print(" Option-4. ");
 					System.out.println(rs.getString(6) + " ");
-					System.out.print(" Select your correct answer>> ");
+					System.out.print(" Select your" + " answer>> ");
 					while ((selection = validation(sc.next())) == -1) {
 						System.out.println(" Make sure you have entered valid option..!");
 						System.out.print(" Select your correct answer>> ");
 					}
 					if (selection == rs.getInt(8)) {
 						Result.put(rs.getInt(1), true);
+						System.out.println(" Your answer is right..!");
 					} else {
 						Result.put(rs.getInt(1), false);
+						System.out.println(" You have selected wrong option..!");
+						System.out.println(" The right answer is Option-" + rs.getInt(8) + ". "
+								+ rs.getString(Integer.valueOf(rs.getInt(8) + 2)));
+						System.out.print(" Description- ");
+						System.out.println(rs.getString(7) + "\n");
 					}
 				}
 			}
-
 			PreparedStatement getOldScorePS = con.prepareStatement("SELECT newscore FROM score where uid = ?");
 			getOldScorePS.setInt(1, uid);
 			ResultSet getOldScoreRS = getOldScorePS.executeQuery();
@@ -103,11 +109,6 @@ public class Questions extends AbstractQuizz {
 		System.out.println();
 		System.out.println("Your Grade-> " + getGrade(newscore));
 		System.out.println();
-		Result.keySet().stream().forEach(x -> {
-			System.out.print("Q." + Result + " ");
-			String str = (Result.get(x)) ? "Right" : "Wrong";
-			System.out.println(str);
-		});
 	}
 
 	/**
@@ -152,8 +153,8 @@ public class Questions extends AbstractQuizz {
 	/**
 	 * Converts the marks to Grade
 	 * 
-	 * @param marks 
-	 * @return String Grades will be returned depending on given marks  
+	 * @param marks
+	 * @return String Grades will be returned depending on given marks
 	 */
 	private String getGrade(int marks) {
 		if (marks >= 8) {
