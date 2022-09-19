@@ -24,12 +24,14 @@ public class ForgotPassword extends Users
 		con=build.getConnectionDb();
 		int count=1;
 		int flag=0;
+		
 		String security=null;
 		//try with resource to create connection
 		try(PreparedStatement ps1=con.prepareStatement(QUERY1);
-			PreparedStatement ps2=con.prepareStatement(QUERY2);
-			Scanner sc=new Scanner(System.in);)
+			PreparedStatement ps2=con.prepareStatement(QUERY2);)
 		{
+			@SuppressWarnings("resource")
+			Scanner sc=new Scanner(System.in);
 			//connection check
 			if(con!=null)
 			{
@@ -42,35 +44,31 @@ public class ForgotPassword extends Users
 						//infinite loop to take multiple inputs
 						while(true)
 						{
-							System.out.println("Enter your email : ");
-							user.setUsername(sc.next());
-							if(count<3)
+							System.out.print("Enter your email    : ");
+							String temp=sc.next();
+							String valid="^[a-zA-Z0-9_.-]+@[a-zA-Z.]+.[a-zA-Z]+$";
+						
+							if(temp.matches(valid))
 							{
-								if (!user.getUsername().contains("@") || !user.getUsername().endsWith(".com")) 
+								user.setUsername(temp);
+								ps1.setString(1,user.getUsername());
+								ResultSet rs=ps1.executeQuery();				//email id verification while
+								if(rs!=null)
 								{
-									count++;
-									System.out.println("Re-correct please !");
-								}
-								else
-								{
-									ps1.setString(1,user.getUsername());
-									ResultSet rs=ps1.executeQuery();				//email id verification while
-									if(rs!=null)
+									while(rs.next())
 									{
-										while(rs.next())
-										{
-											security=rs.getString(1);
-											flag=1;
-										}
+										security=rs.getString(1);
+										System.out.println(security);
+										flag=1;
 									}
-									break;
 								}
-							}
-							else 
-							{
-								System.out.println("Maximum attempts over try after some time");
 								break;
 							}
+							else
+							{
+								System.out.println("Please re-correct email id");
+							}
+							
 						}
 						count=0;
 						
@@ -78,7 +76,7 @@ public class ForgotPassword extends Users
 						{
 							while(true)
 							{
-								System.out.println("What is you pet name ? ");
+								System.out.print("What is you pet name ? : ");
 								String petName=sc.next();
 								if(count<=2)
 								{
@@ -91,17 +89,25 @@ public class ForgotPassword extends Users
 									{
 										if(petName.equals(security))
 										{
-											System.out.println("Enter new password : ");
-											String newPassword=sc.next();
-											System.out.println("Confirm new password : ");
-											String confirmPassword=sc.next();
-											if(newPassword.equals(confirmPassword))				//password update while
+											while(true)
 											{
-												ps2.setString(1, confirmPassword);
-												ps2.setString(2, user.getUsername());
-												ps2.executeUpdate();
-												System.out.println("Password updates successfully");
-												
+												System.out.print("Enter new password : ");
+												String newPassword=sc.next();
+												System.out.print("Confirm new password : ");
+												String confirmPassword=sc.next();
+												if(newPassword.equals(confirmPassword))				//password update while
+												{
+													ps2.setString(1, confirmPassword);
+													ps2.setString(2, user.getUsername());
+													ps2.executeUpdate();
+													System.out.println("Password updates successfully");
+													break;
+													
+												}
+												else
+												{
+													System.out.println("new password and confirm password does not match");
+												}
 											}
 											break;
 										}

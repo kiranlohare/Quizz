@@ -24,10 +24,22 @@ public interface Quizz
 		try 
 		{
 			b = Integer.parseInt(a);
-			if (b < start || b > end)
+			if (b < start && b > end)
 				return -1;
 		} catch (Exception e) {
 			return -1;
+		}
+		return b;
+	}
+	default char validateChar(String a) {
+		char b = 0;
+		try 
+		{
+			b = a.toUpperCase().charAt(0);
+			if (b < 'A' && b > 'Z')
+				return '$';
+		} catch (Exception e) {
+			return '$';
 		}
 		return b;
 	}

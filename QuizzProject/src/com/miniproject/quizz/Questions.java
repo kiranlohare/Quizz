@@ -67,11 +67,12 @@ public class Questions extends AbstractQuizz {
 					if (selection == rs.getInt(8)) {
 						Result.put(rs.getInt(1), true);
 						System.out.println(" Your answer is right..!\n");
+						System.out.println(" Ansewer : " + rs.getInt(8) + ". "+ rs.getString(Integer.valueOf(rs.getInt(8) + 2))+"\n");
+						
 					} else {
 						Result.put(rs.getInt(1), false);
 						System.out.println(" You have selected wrong option..!");
-						System.out.println(" The right answer is Option-" + rs.getInt(8) + ". "
-								+ rs.getString(Integer.valueOf(rs.getInt(8) + 2)));
+						System.out.println(" The right answer is Option-" + rs.getInt(8) + ". "	+ rs.getString(Integer.valueOf(rs.getInt(8) + 2)));
 						System.out.print(" Description- ");
 						System.out.println(rs.getString(7) + "\n");
 					}

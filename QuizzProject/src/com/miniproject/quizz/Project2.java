@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
 public class Project2{
@@ -13,7 +11,8 @@ public class Project2{
 	
 	 
     try{
-  	  Scanner scanner = new Scanner(System.in);
+  	  @SuppressWarnings("resource")
+	Scanner scanner = new Scanner(System.in);
   	    int a = scanner.nextInt();
   	  String query = "select * from students where class=?";
   	  Class.forName("com.mysql.cj.jdbc.Driver"); 

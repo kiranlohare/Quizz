@@ -23,6 +23,7 @@ public class SignUp //
 	
 	public int signUp() 
 	{
+		String temp=null;
 		String valid=null;
 		//establish connect with database
 		Users users=new Users();
@@ -39,7 +40,7 @@ public class SignUp //
 				valid="^[A-Za-z]+$";
 				while(true)
 				{
-					System.out.println("Enter your name : ");
+					System.out.print("Enter your name : ");
 					String name=sc.nextLine();
 					if(name.matches(valid))
 					{
@@ -48,15 +49,16 @@ public class SignUp //
 					}
 					else
 					{
-						System.out.println("please correct name");
+						System.out.print("please correct name");
 					}
 				}
 				
 				while(true)
 				{
-					System.out.println("Enter your email : ");
-					String temp=sc.next(); 
+					System.out.print("Enter your email : ");
+					temp=sc.next(); 
 					valid="^[a-zA-Z0-9_.-]+@[a-zA-Z.]+.[a-zA-Z]+$";
+					//valid="^[\\\\w!#$%&'*+/=?`{|}~^-]+(?:\\\\.[\\\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,6}$";
 					if(temp.matches(valid))
 					{
 						users.setUsername(temp);
@@ -80,7 +82,7 @@ public class SignUp //
 				{
 					while(true)
 					{
-						System.out.println("Enter your password : ");
+						System.out.print("Enter your password : ");
 						users.setPassword(sc.next());
 						if(users.getPassword()!=null)
 						{	
@@ -90,11 +92,13 @@ public class SignUp //
 					
 					while(true)
 					{
+						valid="^[A-Za-z0-9]+$";
 						System.out.println("Enter security question : ");
-						System.out.println("What is your pet name?");
-						users.setSecuritycheck(sc.next());
-						if(users.getSecuritycheck()!=null)
+						System.out.print("What is your pet name?  : ");
+						temp=sc.next();
+						if(temp.matches(valid))
 						{	
+							users.setSecuritycheck(temp);
 							break;
 						}
 					}
@@ -108,6 +112,7 @@ public class SignUp //
 							ps1.setString(3, users.getPassword());
 							ps1.setString(4, users.getSecuritycheck());
 							isExecuted=ps1.executeUpdate();
+							System.out.println("!...Account created succesfully...!");
 							if(isExecuted==1)
 							{
 								PreparedStatement ps3=con.prepareStatement("select uid from users where email=?");

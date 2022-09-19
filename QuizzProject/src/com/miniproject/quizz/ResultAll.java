@@ -23,11 +23,10 @@ public class ResultAll {
 					ResultSet rs = ps.executeQuery();
 					if (rs != null) {
 						while (rs.next()) {
-							System.out.println("\t\t\t===== YOUR DETAILS =====");
-							System.out.println("\t\t\tUserID          :  " + rs.getInt(1));
-							System.out.println("\t\t\tOld Score       :  " + rs.getString(3));
-							System.out.println("\t\t\tLatest Score    :  " + rs.getString(2));
-							System.out.println("\t\t\t===== KEEP PLAYING =====");
+							System.out.println("\t\t\t\t===== USER ID : "+rs.getInt(1)+" =====");
+							System.out.println("\t\t\t\tOld Score         :  " + rs.getString(3));
+							System.out.println("\t\t\t\tLatest Score      :  " + rs.getString(2));
+							System.out.println("\t\t\t\t=======================");
 							System.out.println("                              ");
 
 						}
