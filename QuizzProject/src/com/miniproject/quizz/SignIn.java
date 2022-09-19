@@ -38,7 +38,7 @@ public class SignIn extends AbstractQuizz
 						while(true)
 						{
 							//input 
-							System.out.println("Enter your email : ");
+							System.out.print("Enter your email : ");
 							user.setUsername(sc.next());
 							if(count<2)
 							{
@@ -59,22 +59,12 @@ public class SignIn extends AbstractQuizz
 											flag=1;
 											while(true)
 											{
-												System.out.println("Enter your password :");
+												System.out.print("Enter your password : ");
 												user.setPassword(sc.next());
 												if(local<3)
 												{
 													if(user.getPassword().equals(rs.getString(2)))
 													{
-														//System.out.println("Logged In successfully...Enjoy the game...!");
-//														System.out.println("Your User ID is: "+rs.getInt(1));
-//														System.out.println("Shall we start the game  :  Y?N");
-//														String str=sc.next();
-//														char ch=str.toLowerCase().charAt(0);
-//														if(ch=='y')
-//														{
-//															Questions q=new Questions(rs.getInt(1));
-//															q.getQuestions();
-//														}
 														return rs.getInt(1);
 													}
 													else
