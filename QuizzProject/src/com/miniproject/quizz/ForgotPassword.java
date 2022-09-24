@@ -58,7 +58,6 @@ public class ForgotPassword extends Users
 									while(rs.next())
 									{
 										security=rs.getString(1);
-										System.out.println(security);
 										flag=1;
 									}
 								}
@@ -70,7 +69,7 @@ public class ForgotPassword extends Users
 							}
 							
 						}
-						count=0;
+						count=1;
 						
 						if(flag==1)
 						{
@@ -78,7 +77,7 @@ public class ForgotPassword extends Users
 							{
 								System.out.print("What is you pet name ? : ");
 								String petName=sc.next();
-								if(count<=2)
+								if(count<=3)
 								{
 									if (petName.contains("null")) 
 									{

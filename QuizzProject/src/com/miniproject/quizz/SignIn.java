@@ -61,7 +61,7 @@ public class SignIn extends AbstractQuizz
 											{
 												System.out.print("Enter your password : ");
 												user.setPassword(sc.next());
-												if(local<3)
+												if(local<=3)
 												{
 													if(user.getPassword().equals(rs.getString(2)))
 													{
